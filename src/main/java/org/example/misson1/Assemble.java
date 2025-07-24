@@ -235,43 +235,43 @@ public class Assemble {
         return step;
     }
 
-    private static void selectCarType(int a) {
-        car[CarType_Q] = a;
-        System.out.printf("차량 타입으로 %s을 선택하셨습니다.\n", getCarType(a));
+    private static void selectCarType(int carType) {
+        car[CarType_Q] = carType;
+        System.out.printf("차량 타입으로 %s을 선택하셨습니다.\n", getCarType(carType));
     }
 
-    private static String getCarType(int a) {
-        return a == 1 ? "Sedan" : a == 2 ? "SUV" : "Truck";
+    private static String getCarType(int carType) {
+        return carType == 1 ? "Sedan" : carType == 2 ? "SUV" : "Truck";
     }
 
-    private static void selectEngine(int a) {
-        car[Engine_Q] = a;
-        String name = getEngine(a);
+    private static void selectEngine(int engine) {
+        car[Engine_Q] = engine;
+        String name = getEngine(engine);
         System.out.printf("%s 엔진을 선택하셨습니다.\n", name);
     }
 
-    private static String getEngine(int a) {
-        return a == 1 ? "GM" : a == 2 ? "TOYOTA" : a == 3 ? "WIA" : "고장난 엔진";
+    private static String getEngine(int engine) {
+        return engine == 1 ? "GM" : engine == 2 ? "TOYOTA" : engine == 3 ? "WIA" : "고장난 엔진";
     }
 
-    private static void selectBrakeSystem(int a) {
-        car[BrakeSystem_Q] = a;
-        String name = getBreakSystem(a);
+    private static void selectBrakeSystem(int breakSystem) {
+        car[BrakeSystem_Q] = breakSystem;
+        String name = getBreakSystem(breakSystem);
         System.out.printf("%s 제동장치를 선택하셨습니다.\n", name);
     }
 
-    private static String getBreakSystem(int a) {
-        return a == 1 ? "MANDO" : a == 2 ? "CONTINENTAL" : "BOSCH";
+    private static String getBreakSystem(int breakSystem) {
+        return breakSystem == 1 ? "MANDO" : breakSystem == 2 ? "CONTINENTAL" : "BOSCH";
     }
 
-    private static void selectSteeringSystem(int a) {
-        car[SteeringSystem_Q] = a;
-        String name = getSteeringSystem(a);
+    private static void selectSteeringSystem(int steeringSystem) {
+        car[SteeringSystem_Q] = steeringSystem;
+        String name = getSteeringSystem(steeringSystem);
         System.out.printf("%s 조향장치를 선택하셨습니다.\n", name);
     }
 
-    private static String getSteeringSystem(int a) {
-        return a == 1 ? "BOSCH" : "MOBIS";
+    private static String getSteeringSystem(int steeringSystem) {
+        return steeringSystem == 1 ? "BOSCH" : "MOBIS";
     }
 
     private static void testFinishedCar(int answer) {
