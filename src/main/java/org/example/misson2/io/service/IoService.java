@@ -5,6 +5,7 @@ import org.example.misson2.car.enums.CarParts;
 import java.util.Scanner;
 
 import static org.example.misson2.common.ProgramConstants.*;
+import static org.example.misson2.common.TestConstants.CLEAR_SCREEN;
 
 public class IoService {
 
@@ -41,5 +42,10 @@ public class IoService {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException ignored) {}
+    }
+
+    public void clearScreen() {
+        System.out.print(CLEAR_SCREEN);
+        System.out.flush();
     }
 }

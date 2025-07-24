@@ -14,10 +14,20 @@ import org.example.misson2.car.factory.EnginFactory;
 import org.example.misson2.car.factory.SteeringSystemFactory;
 
 public class Car {
+    private static Car instance;
     CarType carType;
     Engine engine;
     BreakSystem breakSystem;
     SteeringSystem steeringSystem;
+
+    private Car(){}
+
+    public static Car getInstance() {
+        if (instance == null) {
+            instance = new Car();
+        }
+        return instance;
+    }
 
     public void selectCarType(int command) {
         CarTypeEnum carTypeEnum = CarTypeEnum.fromNumber(command);
@@ -33,7 +43,7 @@ public class Car {
 
     public void selectBreakSystem(int command) {
         BreakSystemEnum breakSystemEnum = BreakSystemEnum.fromNumber(command);
-        this.breakSystem = BreakSystemFactory.createBreakSystem(breakSystemEnum);        System.out.printf("%s 제동장치를 선택하셨습니다.\n", name);
+        this.breakSystem = BreakSystemFactory.createBreakSystem(breakSystemEnum);
         System.out.printf("%s 제동장치를 선택하셨습니다.\n", breakSystemEnum.name());
     }
 

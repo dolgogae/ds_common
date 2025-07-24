@@ -20,7 +20,8 @@ public class PartsTestService {
     private BreakSystemEnum breakSystem;
     private SteeringSystemEnum steeringSystem;
 
-    public void testParts(Car car) {
+    public void testParts() {
+        Car car = Car.getInstance();
         init(car);
         if(checkMixtureBoschPart(car)
                 && checkValidBreakSystem(car) 

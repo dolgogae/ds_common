@@ -5,6 +5,7 @@ import org.example.misson2.car.enums.BreakSystemEnum;
 import org.example.misson2.car.enums.CarTypeEnum;
 import org.example.misson2.car.enums.EngineEnum;
 import org.example.misson2.car.enums.SteeringSystemEnum;
+import org.example.misson2.car.repository.CarRepository;
 
 import static org.example.misson2.car.enums.BreakSystemEnum.*;
 import static org.example.misson2.car.enums.CarTypeEnum.*;
@@ -18,7 +19,8 @@ public class DrivingTestService {
     private BreakSystemEnum breakSystem;
     private SteeringSystemEnum steeringSystem;
 
-    public void testDriving(Car car) {
+    public void testDriving() {
+        Car car = Car.getInstance();
         init(car);
         if (checkCarBreakdown(car)) return;
         successDriving(car);
