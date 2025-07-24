@@ -14,9 +14,9 @@ import static org.example.misson2.car.enums.CarParts.Run_Test;
 import static org.example.misson2.common.ProgramConstants.EXIT_PROGRAM;
 
 public class ExecutionService {
-    private static final IoService ioService = new IoService();
-    private static final CarTestService carTestService = new CarTestService();
-    private static final CarService carService = new CarService();
+    private static IoService ioService = new IoService();
+    private static CarTestService carTestService = new CarTestService();
+    private static CarService carService = new CarService();
 
     public void executeCarMaking(){
         Scanner sc = new Scanner(System.in);

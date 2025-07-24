@@ -1,66 +1,39 @@
 package org.example.misson2.test;
 
-
-import org.example.misson2.car.data.Car;
-import org.example.misson2.car.enums.BreakSystemEnum;
-import org.example.misson2.car.enums.CarTypeEnum;
-import org.example.misson2.car.enums.EngineEnum;
-import org.example.misson2.car.enums.SteeringSystemEnum;
-
-import static org.example.misson2.car.enums.BreakSystemEnum.*;
-
-import static org.example.misson2.car.enums.CarTypeEnum.*;
-import static org.example.misson2.car.enums.EngineEnum.TOYOTA;
-import static org.example.misson2.car.enums.EngineEnum.WIA;
-import static org.example.misson2.car.enums.SteeringSystemEnum.BOSCH_S;
-
 public class PartsTestService {
-    private CarTypeEnum carType;
-    private EngineEnum engine;
-    private BreakSystemEnum breakSystem;
-    private SteeringSystemEnum steeringSystem;
+    private CarStatusManager carStatusManager = new CarStatusManager();
 
     public void testParts() {
-        Car car = Car.getInstance();
-        init(car);
-        if(checkMixtureBoschPart(car)
-                && checkValidBreakSystem(car) 
-                && checkValidEngine(car)) {
+        carStatusManager.init();
+        if(checkMixtureBoschPart() && checkValidBreakSystem() && checkValidEngine()) {
             System.out.println("자동차 부품 조합 테스트 결과 : PASS");
         }
     }
     
-    private void init(Car car){
-        carType = car.getCarType().getCarTypeEnum();
-        engine = car.getEngine().getEngineType();
-        breakSystem = car.getBreakSystem().getBreakSystemType();
-        steeringSystem = car.getSteeringSystem().getSteeringSystemType();
-    }
-    
-    private boolean checkMixtureBoschPart(Car car){
-        if (breakSystem == BOSCH_B && steeringSystem != BOSCH_S) {
+    private boolean checkMixtureBoschPart(){
+        if (carStatusManager.isNotSameBoschSteering()) {
             fail("Bosch제동장치에는 Bosch조향장치 이외 사용 불가");
             return false;
         }
         return true;
     }
 
-    private boolean checkValidBreakSystem(Car car){
-        if (carType == SEDAN && breakSystem == CONTINENTAL) {
+    private boolean checkValidBreakSystem(){
+        if (carStatusManager.isSedanAndContinental()) {
             fail("Sedan에는 Continental제동장치 사용 불가");
             return false;
-        }else if (carType == TRUCK && breakSystem == MANDO) {
+        }else if (carStatusManager.isTruckAndMando()) {
             fail("Truck에는 Mando제동장치 사용 불가");
             return false;
         }
         return true;
     }
 
-    private boolean checkValidEngine(Car car){
-        if (carType == SUV && engine == TOYOTA) {
+    private boolean checkValidEngine(){
+        if (carStatusManager.isSuvAndToyota()) {
             fail("SUV에는 TOYOTA엔진 사용 불가");
             return false;
-        } else if (carType == TRUCK && engine == WIA) {
+        } else if (carStatusManager.isTruckAndWia()) {
             fail("Truck에는 WIA엔진 사용 불가");
             return false;
         }

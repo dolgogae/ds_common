@@ -5,22 +5,22 @@ import org.example.misson2.car.enums.CarParts;
 import org.example.misson2.io.service.IoService;
 
 public class CarService {
-    private final IoService ioService = new IoService();
+    private IoService ioService = new IoService();
 
-    public CarParts selectParts(CarParts step, int answer) {
+    public CarParts selectParts(CarParts step, int selectCode) {
         Car car = Car.getInstance();
         switch (step) {
             case CarType_Q:
-                car.selectCarType(answer);
+                car.selectCarType(selectCode);
                 break;
             case Engine_Q:
-                car.selectEngine(answer);
+                car.selectEngine(selectCode);
                 break;
-            case BrakeSystem_Q:
-                car.selectBreakSystem(answer);
+            case BreakSystem_Q:
+                car.selectBreakSystem(selectCode);
                 break;
             case SteeringSystem_Q:
-                car.selectSteeringSystem(answer);
+                car.selectSteeringSystem(selectCode);
                 break;
         }
         step = step.getNext();

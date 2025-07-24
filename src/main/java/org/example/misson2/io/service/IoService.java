@@ -8,7 +8,6 @@ import static org.example.misson2.common.ProgramConstants.*;
 import static org.example.misson2.common.TestConstants.CLEAR_SCREEN;
 
 public class IoService {
-
     public int getInputValue(Scanner sc, CarParts step) {
         System.out.print("INPUT > ");
         String rawInputValue = sc.nextLine().trim();

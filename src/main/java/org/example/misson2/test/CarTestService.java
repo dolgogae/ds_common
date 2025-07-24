@@ -11,11 +11,11 @@ public class CarTestService {
     private final PartsTestService partsTestService = new PartsTestService();
     private final IoService ioService = new IoService();
 
-    public void testCar(int answer) {
-        if (answer == DRIVING_TEST) {
+    public void testCar(int testCode) {
+        if (testCode == DRIVING_TEST) {
             drivingTestService.testDriving();
             ioService.delay(2000);
-        } else if (answer == PARTS_TEST) {
+        } else if (testCode == PARTS_TEST) {
             System.out.println("Test...");
             ioService.delay(1500);
             partsTestService.testParts();

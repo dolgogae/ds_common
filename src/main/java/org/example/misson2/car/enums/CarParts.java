@@ -4,27 +4,21 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public enum CarParts {
-    CarType_Q(0, showCarTypeMenu(), isValidCarType()),
-    Engine_Q(1, showEngineMenu(), isValidEngine()),
-    BrakeSystem_Q(2, showBrakeMenu(), isInvalidBreakSystem()),
-    SteeringSystem_Q(3, showSteeringMenu(), isValidSteeringSystem()),
-    Run_Test(4, showRunTestMenu(), isValidTest());
+    CarType_Q(showCarTypeMenu(), isValidCarType()),
+    Engine_Q(showEngineMenu(), isValidEngine()),
+    BreakSystem_Q(showBrakeMenu(), isInvalidBreakSystem()),
+    SteeringSystem_Q(showSteeringMenu(), isValidSteeringSystem()),
+    Run_Test(showRunTestMenu(), isValidTest());
 
-    private final int number;
     private final Consumer<Void> menu;
     private final Function<Integer, Boolean> isValid;
 
     private static final CarParts[] VALUES = values();
     private static int position = 0;
 
-    CarParts(int num, Runnable menu, Function<Integer, Boolean> isValid) {
-        this.number = num;
+    CarParts(Runnable menu, Function<Integer, Boolean> isValid) {
         this.menu = (v) -> menu.run();
         this.isValid = isValid;
-    }
-
-    public int getNumber() {
-        return number;
     }
 
     public CarParts getNext() {
