@@ -1,4 +1,4 @@
-package org.example.misson1;
+package org.example.misson2;
 
 import java.util.Scanner;
 

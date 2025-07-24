@@ -12,7 +12,7 @@ public class Assemble {
     private static final int Run_Test       = 4;
 
     private static final int SEDAN = 1, SUV = 2, TRUCK = 3;
-    private static final int GM = 1, TOYOTA = 2, WIA = 3;
+    private static final int GM = 1, TOYOTA = 2, WIA = 3, INVALID_ENGINE = 4;
     private static final int MANDO = 1, CONTINENTAL = 2, BOSCH_B = 3;
     private static final int BOSCH_S = 1, MOBIS = 2;
 
@@ -287,26 +287,22 @@ public class Assemble {
     }
 
     private static void testDriving() {
+        if (checkCarBreakdown()) return;
+
+        successDriving();
+    }
+
+    private static boolean checkCarBreakdown() {
         if (!isValidCheck()) {
             System.out.println("자동차가 동작되지 않습니다");
-            return;
+            return true;
         }
-        if (car[Engine_Q] == 4) {
+        if (car[Engine_Q] == INVALID_ENGINE) {
             System.out.println("엔진이 고장나있습니다.");
             System.out.println("자동차가 움직이지 않습니다.");
-            return;
+            return true;
         }
-
-        String[] carNames = {"", "Sedan", "SUV", "Truck"};
-        String[] engNames = {"", "GM", "TOYOTA", "WIA"};
-        System.out.printf("Car Type : %s\n", carNames[car[CarType_Q]]);
-        System.out.printf("Engine   : %s\n", engNames[car[Engine_Q]]);
-        System.out.printf("Brake    : %s\n",
-                car[BrakeSystem_Q]==1? "Mando":
-                        car[BrakeSystem_Q]==2? "Continental":"Bosch");
-        System.out.printf("Steering : %s\n",
-                car[SteeringSystem_Q]==1? "Bosch":"Mobis");
-        System.out.println("자동차가 동작됩니다.");
+        return false;
     }
 
     private static boolean isValidCheck() {
@@ -318,21 +314,50 @@ public class Assemble {
         return true;
     }
 
+    private static void successDriving() {
+        String[] carNames = {"", "Sedan", "SUV", "Truck"};
+        String[] engNames = {"", "GM", "TOYOTA", "WIA"};
+        System.out.printf("Car Type : %s\n", carNames[car[CarType_Q]]);
+        System.out.printf("Engine   : %s\n", engNames[car[Engine_Q]]);
+        System.out.printf("Brake    : %s\n", getBreakSystem(car[BrakeSystem_Q]));
+        System.out.printf("Steering : %s\n", getSteeringSystem(car[SteeringSystem_Q]));
+        System.out.println("자동차가 동작됩니다.");
+    }
+
     private static void testParts() {
-        if (car[CarType_Q] == SEDAN && car[BrakeSystem_Q] == CONTINENTAL) {
-            fail("Sedan에는 Continental제동장치 사용 불가");
-        } else if (car[CarType_Q] == SUV && car[Engine_Q] == TOYOTA) {
-            fail("SUV에는 TOYOTA엔진 사용 불가");
-        } else if (car[CarType_Q] == TRUCK && car[Engine_Q] == WIA) {
-            fail("Truck에는 WIA엔진 사용 불가");
-        } else if (car[CarType_Q] == TRUCK && car[BrakeSystem_Q] == MANDO) {
-            fail("Truck에는 Mando제동장치 사용 불가");
-        } else if (car[BrakeSystem_Q] == BOSCH_B && car[SteeringSystem_Q] != BOSCH_S) {
-            fail("Bosch제동장치에는 Bosch조향장치 이외 사용 불가");
-        } else {
+        if(checkMixtureBoschPart() && checkValidBreakSystem() && checkValidEngine()) {
             System.out.println("자동차 부품 조합 테스트 결과 : PASS");
         }
     }
+
+    private static boolean checkMixtureBoschPart(){
+        if (car[BrakeSystem_Q] == BOSCH_B && car[SteeringSystem_Q] != BOSCH_S) {
+            fail("Bosch제동장치에는 Bosch조향장치 이외 사용 불가");
+            return false;
+        }
+        return true;
+    }
+    private static boolean checkValidBreakSystem(){
+        if (car[CarType_Q] == SEDAN && car[BrakeSystem_Q] == CONTINENTAL) {
+            fail("Sedan에는 Continental제동장치 사용 불가");
+            return false;
+        }else if (car[CarType_Q] == TRUCK && car[BrakeSystem_Q] == MANDO) {
+            fail("Truck에는 Mando제동장치 사용 불가");
+            return false;
+        }
+        return true;
+    }
+    private static boolean checkValidEngine(){
+        if (car[CarType_Q] == SUV && car[Engine_Q] == TOYOTA) {
+            fail("SUV에는 TOYOTA엔진 사용 불가");
+            return false;
+        } else if (car[CarType_Q] == TRUCK && car[Engine_Q] == WIA) {
+            fail("Truck에는 WIA엔진 사용 불가");
+            return false;
+        }
+        return true;
+    }
+
 
     private static void fail(String msg) {
         System.out.println("자동차 부품 조합 테스트 결과 : FAIL");
