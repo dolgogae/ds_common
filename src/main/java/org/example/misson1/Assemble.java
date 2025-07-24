@@ -30,99 +30,21 @@ public class Assemble {
         int carPartsStep = CarType_Q;
 
         while (true) {
-            System.out.print(CLEAR_SCREEN);
-            System.out.flush();
-
+            clearScreen();
             showMenuByStep(carPartsStep);
 
             int inputValue = getInputValue(sc, carPartsStep);
             if (inputValue == EXIT_PROGRAM) break;
-            if (inputValue == INVALID_VALUE) continue;
 
-            if (inputValue == STEP_BACK) {
-                carPartsStep = modifyStepBack(carPartsStep);
-                continue;
-            }
-
-            carPartsStep = selectPartsByStep(carPartsStep, inputValue);
+            carPartsStep = executeByValue(inputValue, carPartsStep);
         }
 
         sc.close();
     }
 
-    private static int modifyStepBack(int step) {
-        if (step == Run_Test) {
-            step = CarType_Q;
-        } else if (step > CarType_Q) {
-            step--;
-        }
-        return step;
-    }
-
-    private static int getInputValue(Scanner sc, int step) {
-        System.out.print("INPUT > ");
-        String rawInputValue = sc.nextLine().trim();
-
-        if (rawInputValue.equalsIgnoreCase("exit")) {
-            System.out.println("바이바이");
-            return EXIT_PROGRAM;
-        }
-        return getInputValue(step, rawInputValue);
-    }
-
-    private static int getInputValue(int step, String buf) {
-        try {
-            int answer = Integer.parseInt(buf);
-            if (isValidRange(step, answer)) {
-                return answer;
-            }
-            throw new NumberFormatException();
-        } catch (NumberFormatException e) {
-            System.out.println("ERROR :: 범위내의 숫자만 입력 가능");
-            delay(800);
-            return INVALID_VALUE;
-        }
-    }
-
-    private static int selectPartsByStep(int step, int answer) {
-        switch (step) {
-            case CarType_Q:
-                selectCarType(answer);
-                delay(800);
-                step = Engine_Q;
-                break;
-            case Engine_Q:
-                selectEngine(answer);
-                delay(800);
-                step = BrakeSystem_Q;
-                break;
-            case BrakeSystem_Q:
-                selectBrakeSystem(answer);
-                delay(800);
-                step = SteeringSystem_Q;
-                break;
-            case SteeringSystem_Q:
-                selectSteeringSystem(answer);
-                delay(800);
-                step = Run_Test;
-                break;
-            case Run_Test:
-                testFinishedCar(answer);
-                break;
-        }
-        return step;
-    }
-
-    private static void testFinishedCar(int answer) {
-        if (answer == DRIVING_TEST) {
-            testDriving();
-            delay(2000);
-        } else if (answer == PARTS_TEST) {
-            System.out.println("Test...");
-            delay(1500);
-            testParts();
-            delay(2000);
-        }
+    private static void clearScreen() {
+        System.out.print(CLEAR_SCREEN);
+        System.out.flush();
     }
 
     private static void showMenuByStep(int step) {
@@ -190,6 +112,31 @@ public class Assemble {
         System.out.println("===============================");
     }
 
+    private static int getInputValue(Scanner sc, int step) {
+        System.out.print("INPUT > ");
+        String rawInputValue = sc.nextLine().trim();
+
+        if (isExit(rawInputValue)) {
+            System.out.println("바이바이");
+            return EXIT_PROGRAM;
+        }
+        return getInputValue(step, rawInputValue);
+    }
+
+    private static int getInputValue(int step, String buf) {
+        try {
+            int answer = Integer.parseInt(buf);
+            if (isValidRange(step, answer)) {
+                return answer;
+            }
+            throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            System.out.println("ERROR :: 범위내의 숫자만 입력 가능");
+            delay(800);
+            return INVALID_VALUE;
+        }
+    }
+
     private static boolean isValidRange(int step, int ans) {
         switch (step) {
             case CarType_Q:
@@ -246,6 +193,48 @@ public class Assemble {
         return ans < 1 || ans > 3;
     }
 
+    private static boolean isExit(String rawInputValue) {
+        return rawInputValue.equalsIgnoreCase("exit");
+    }
+
+    private static int modifyStepBack(int step) {
+        if (step == Run_Test) {
+            step = CarType_Q;
+        } else if (step > CarType_Q) {
+            step--;
+        }
+        return step;
+    }
+
+    private static int selectPartsByStep(int step, int answer) {
+        switch (step) {
+            case CarType_Q:
+                selectCarType(answer);
+                delay(800);
+                step = Engine_Q;
+                break;
+            case Engine_Q:
+                selectEngine(answer);
+                delay(800);
+                step = BrakeSystem_Q;
+                break;
+            case BrakeSystem_Q:
+                selectBrakeSystem(answer);
+                delay(800);
+                step = SteeringSystem_Q;
+                break;
+            case SteeringSystem_Q:
+                selectSteeringSystem(answer);
+                delay(800);
+                step = Run_Test;
+                break;
+            case Run_Test:
+                testFinishedCar(answer);
+                break;
+        }
+        return step;
+    }
+
     private static void selectCarType(int a) {
         stack[CarType_Q] = a;
         System.out.printf("차량 타입으로 %s을 선택하셨습니다.\n", getCarType(a));
@@ -285,6 +274,17 @@ public class Assemble {
         return a == 1 ? "BOSCH" : "MOBIS";
     }
 
+    private static void testFinishedCar(int answer) {
+        if (answer == DRIVING_TEST) {
+            testDriving();
+            delay(2000);
+        } else if (answer == PARTS_TEST) {
+            System.out.println("Test...");
+            delay(1500);
+            testParts();
+            delay(2000);
+        }
+    }
 
     private static void testDriving() {
         if (!isValidCheck()) {
@@ -339,10 +339,17 @@ public class Assemble {
         System.out.println(msg);
     }
 
-
     private static void delay(int ms) {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException ignored) {}
+    }
+
+    private static int executeByValue(int inputValue, int carPartsStep) {
+        if (inputValue == STEP_BACK) {
+            return modifyStepBack(carPartsStep);
+        } else {
+            return selectPartsByStep(carPartsStep, inputValue);
+        }
     }
 }
