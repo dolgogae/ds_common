@@ -7,7 +7,7 @@ import org.example.misson2.io.service.IoService;
 public class CarService {
     private final IoService ioService = new IoService();
 
-    public void selectParts(CarParts step, int answer) {
+    public CarParts selectParts(CarParts step, int answer) {
         Car car = Car.getInstance();
         switch (step) {
             case CarType_Q:
@@ -23,7 +23,8 @@ public class CarService {
                 car.selectSteeringSystem(answer);
                 break;
         }
-        step.getNext();
+        step = step.getNext();
         ioService.delay(800);
+        return step;
     }
 }

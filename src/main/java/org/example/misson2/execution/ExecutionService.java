@@ -56,7 +56,7 @@ public class ExecutionService {
         if(step == Run_Test){
             carTestService.testCar(answer);
         } else {
-            carService.selectParts(step, answer);
+            step = carService.selectParts(step, answer);
         }
         return step;
     }

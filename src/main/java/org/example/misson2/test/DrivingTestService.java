@@ -5,7 +5,6 @@ import org.example.misson2.car.enums.BreakSystemEnum;
 import org.example.misson2.car.enums.CarTypeEnum;
 import org.example.misson2.car.enums.EngineEnum;
 import org.example.misson2.car.enums.SteeringSystemEnum;
-import org.example.misson2.car.repository.CarRepository;
 
 import static org.example.misson2.car.enums.BreakSystemEnum.*;
 import static org.example.misson2.car.enums.CarTypeEnum.*;
